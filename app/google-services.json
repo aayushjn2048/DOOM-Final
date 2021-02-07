@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "790303174839",
+    "project_id": "doom-55ff4",
+    "storage_bucket": "doom-55ff4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790303174839:android:701b96aba81fd0fb699d32",
+        "android_client_info": {
+          "package_name": "com.doom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790303174839-drickocu10jo2q68ksebckufngrq9i4c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfwXUY5ETO3TrMwvugJygvL4wnwtuA02A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790303174839-drickocu10jo2q68ksebckufngrq9i4c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
