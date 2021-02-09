@@ -9,211 +9,265 @@
     android:orientation="vertical"
     tools:context=".MoodActivity">
 
-    <TextView
-        android:id="@+id/moodActivityTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="20dp"
-        android:text="Choose your Mood"
-        android:textSize="36sp" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/ic_profile"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Ayush Jain"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/profile_image"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/moodActivityTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:text="Choose your Mood"
+            android:textAlignment="center"
+            android:textSize="36sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/sadMood"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                app:cardBackgroundColor="#7A7A7A"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="4dp">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="20dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="center_horizontal"
-                            app:srcCompat="@drawable/ic_decreased_concentration" />
-
-                        <TextView
-                            android:id="@+id/sadMoodValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Sad"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-                </FrameLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/AngryMood"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                app:cardBackgroundColor="#CC3B3B"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="4dp">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="20dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/angryMood"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="center_horizontal"
-                            app:srcCompat="@drawable/ic_anger" />
-
-                        <TextView
-                            android:id="@+id/angryMoodValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Angry"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-                </FrameLayout>
-
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="100dp"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/timePassMood"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                app:cardBackgroundColor="#3F51B5"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="4dp">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="20dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/imageView2"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="center_horizontal"
-                            app:srcCompat="@drawable/ic_bored" />
-
-                        <TextView
-                            android:id="@+id/timePassMoodValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Bored"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-                </FrameLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/passionMood"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
-                app:cardBackgroundColor="#E91E63"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="4dp"
-                app:cardMaxElevation="4dp">
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
-                <FrameLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/sadMood"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="20dp">
+                    android:layout_margin="20dp"
+                    app:cardBackgroundColor="#7A7A7A"
+                    app:cardElevation="4dp"
+                    app:cardMaxElevation="4dp">
 
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="20dp">
 
-                        <ImageView
-                            android:id="@+id/passionateMood"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="center_horizontal"
-                            app:srcCompat="@drawable/ic_enthusiast" />
-
-                        <TextView
-                            android:id="@+id/passionateMoodValue"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Passionate"
-                            android:textSize="18sp" />
-                    </LinearLayout>
+                            android:orientation="vertical">
 
-                </FrameLayout>
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_gravity="center_horizontal"
+                                app:srcCompat="@drawable/ic_decreased_concentration" />
 
-            </androidx.cardview.widget.CardView>
+                            <TextView
+                                android:id="@+id/sadMoodValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="Sad"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/AngryMood"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    app:cardBackgroundColor="#CC3B3B"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp"
+                    app:cardMaxElevation="4dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/angryMood"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_gravity="center_horizontal"
+                                app:srcCompat="@drawable/ic_anger" />
+
+                            <TextView
+                                android:id="@+id/angryMoodValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="Angry"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="100dp"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/timePassMood"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    app:cardBackgroundColor="#3F51B5"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp"
+                    app:cardMaxElevation="4dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageView2"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_gravity="center_horizontal"
+                                app:srcCompat="@drawable/ic_bored" />
+
+                            <TextView
+                                android:id="@+id/timePassMoodValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="Bored"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/passionMood"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    app:cardBackgroundColor="#E91E63"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp"
+                    app:cardMaxElevation="4dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/passionateMood"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_gravity="center_horizontal"
+                                app:srcCompat="@drawable/ic_enthusiast" />
+
+                            <TextView
+                                android:id="@+id/passionateMoodValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="Passionate"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+
 
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toolbar;
 
 import com.doom.databinding.ActivityMoodBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +27,36 @@ public class MoodActivity extends AppCompatActivity {
         binding = ActivityMoodBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setSupportActionBar(binding.toolbar);
+
         binding.AngryMood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MoodActivity.this, WaitingZone.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.sadMood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MoodActivity.this, WaitingZone.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.timePassMood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MoodActivity.this, WaitingZone.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.passionateMood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

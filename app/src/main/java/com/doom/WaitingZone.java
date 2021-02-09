@@ -2,7 +2,9 @@ package com.doom;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.doom.databinding.ActivityWaitingZoneBinding;
 import com.github.ybq.android.spinkit.sprite.Sprite;
@@ -19,10 +21,16 @@ public class WaitingZone extends AppCompatActivity {
         binding = ActivityWaitingZoneBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getSupportActionBar().hide();
-
         Sprite circle = new Circle();
         binding.spinKit.setIndeterminateDrawable(circle);
+
+        binding.cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WaitingZone.this, MoodActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
