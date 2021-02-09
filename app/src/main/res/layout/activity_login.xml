@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="10dp"
-            android:gravity="center"
+
             android:orientation="vertical">
 
             <EditText
@@ -42,12 +42,21 @@
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/white"
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:padding="9dp"></EditText>
+            <TextView
+                android:id="@+id/tvforgotpw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forgot Password?"
+                android:textSize="15sp"
+                android:textColor="@color/red"
+                android:layout_marginBottom="25dp"></TextView>
+
 
             <Button
                 android:id="@+id/btn_signin"
@@ -56,6 +65,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/colorPrimaryDark"
                 android:padding="13dp"
+                android:layout_gravity="center_horizontal"
                 android:text="LOGIN"
                 app:cornerRadius="4dp" />
         </LinearLayout>
