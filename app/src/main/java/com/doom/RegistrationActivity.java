@@ -23,11 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 public class RegistrationActivity extends AppCompatActivity {
 
     ActivityRegistrationBinding binding;
-    private FirebaseAuth auth;
-    View view;
+    FirebaseAuth auth;
     FirebaseDatabase database;
     ProgressDialog progressDialog;
-    String gender;
     RadioGroup radioGroup;
     RadioButton radioButton;
 

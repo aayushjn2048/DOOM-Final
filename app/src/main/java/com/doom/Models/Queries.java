@@ -1,7 +1,15 @@
 package com.doom.Models;
 
 public class Queries {
-    String mood, status, chatterId;
+    String mood, status, chatterId, gender;
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public Queries(){}
 
