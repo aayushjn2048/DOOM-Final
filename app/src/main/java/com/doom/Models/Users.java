@@ -1,16 +1,25 @@
 package com.doom.Models;
 
 public class Users {
-    String username,mail,password;
+    String username,mail,gender;
 
-    public Users(String username, String mail, String password) {
-        this.username = username;
-        this.mail = mail;
-        this.password = password;
-    }
 
     public String getUsername() {
         return username;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public Users(String username, String mail, String gender) {
+        this.username = username;
+        this.mail = mail;
+        this.gender = gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public void setUsername(String username) {
@@ -25,14 +34,5 @@ public class Users {
         this.mail = mail;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Users(){}
 
 }

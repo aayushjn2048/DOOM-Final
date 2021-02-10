@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.doom.Models.Users;
@@ -21,8 +22,10 @@ public class RegistrationActivity extends AppCompatActivity {
 
     ActivityRegistrationBinding binding;
     private FirebaseAuth auth;
+    View view;
     FirebaseDatabase database;
     ProgressDialog progressDialog;
+     String gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,21 @@ public class RegistrationActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+       binding.male.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+               gender=binding.male.getText().toString();
+           }
+       });
+
+        binding.female.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                gender=binding.female.getText().toString();
+            }
+        });
+
         binding.btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,8 +91,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                Users user = new Users(binding.etuserName.getText().toString(), binding.etEmail.getText().toString(),
-                                                        binding.etPassword.getText().toString());
+                                                Users user = new Users(binding.etuserName.getText().toString(), binding.etEmail.getText().toString(),gender);
 
                                                 database.getReference().child("Users").child(id).setValue(user);
                                                 Toast.makeText(RegistrationActivity.this, "Registered Successfully, Please check your email for verification", Toast.LENGTH_LONG).show();
