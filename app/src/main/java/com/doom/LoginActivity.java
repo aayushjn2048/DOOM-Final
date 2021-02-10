@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
-     FirebaseAuth auth;
+    FirebaseAuth auth;
     ProgressDialog progressDialog;
     FirebaseDatabase database;
     ActivityLoginBinding binding;
@@ -37,9 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         database=FirebaseDatabase.getInstance();
 
         progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setTitle("Login");
-        progressDialog.setMessage("We are logging in");
-
+        progressDialog.setTitle("Signing In");
+        progressDialog.setMessage("Signing you in...");
 
         binding.btnSignin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,9 +58,11 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
+                        //Toast.makeText(LoginActivity.this, "Signing In working!!", Toast.LENGTH_SHORT).show();
                         if(task.isSuccessful())
                         {
                             if(auth.getCurrentUser().isEmailVerified()) {
+                                //Toast.makeText(LoginActivity.this, "Verification Completed!!", Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(LoginActivity.this, MoodActivity.class);
                                 startActivity(i);
                             }
