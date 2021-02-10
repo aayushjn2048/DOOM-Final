@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.doom.Models.Users;
@@ -25,7 +27,9 @@ public class RegistrationActivity extends AppCompatActivity {
     View view;
     FirebaseDatabase database;
     ProgressDialog progressDialog;
-     String gender;
+    String gender;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,23 +52,10 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
-       binding.male.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-           @Override
-           public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-               gender=binding.male.getText().toString();
-           }
-       });
-
-        binding.female.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                gender=binding.female.getText().toString();
-            }
-        });
-
         binding.btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (binding.etEmail.getText().toString().isEmpty()) {
                     binding.etEmail.setError("This field cannot remain empty");
                     return;
@@ -77,6 +68,13 @@ public class RegistrationActivity extends AppCompatActivity {
                     binding.etuserName.setError("This field cannot remain empty");
                     return;
                 }
+                radioGroup = (RadioGroup)findViewById(R.id.gender);
+                if(radioGroup.getCheckedRadioButtonId()==-1) {
+                    binding.btnSignup.setError("Fill all the details");
+                    return;
+                }
+                radioButton = (RadioButton)findViewById(radioGroup.getCheckedRadioButtonId());
+                final String genderVal = radioButton.getText().toString();
                 progressDialog.show();
 
                 auth.createUserWithEmailAndPassword
@@ -91,7 +89,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                Users user = new Users(binding.etuserName.getText().toString(), binding.etEmail.getText().toString(),gender);
+                                                Users user = new Users(binding.etuserName.getText().toString(), binding.etEmail.getText().toString(),genderVal);
 
                                                 database.getReference().child("Users").child(id).setValue(user);
                                                 Toast.makeText(RegistrationActivity.this, "Registered Successfully, Please check your email for verification", Toast.LENGTH_LONG).show();
