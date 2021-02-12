@@ -151,5 +151,11 @@ public class Settings extends AppCompatActivity {
             }
         });*/
     }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Settings.this, MoodActivity.class);
+        startActivity(intent);
+        return;
+    }
 
 }

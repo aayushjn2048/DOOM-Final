@@ -93,4 +93,9 @@ public class WaitingZone extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(WaitingZone.this,"There is no back action",Toast.LENGTH_SHORT).show();
+        return;
+    }
 }

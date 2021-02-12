@@ -154,4 +154,10 @@ public class ChatBox extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(ChatBox.this,"There is no back action",Toast.LENGTH_SHORT).show();
+        return;
+    }
 }

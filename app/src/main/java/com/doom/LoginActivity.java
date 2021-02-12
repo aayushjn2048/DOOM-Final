@@ -136,4 +136,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(LoginActivity.this,"There is no back action",Toast.LENGTH_SHORT).show();
+        return;
+    }
 }

@@ -364,4 +364,9 @@ public class MoodActivity extends AppCompatActivity {
         }
         return true;
     }
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(MoodActivity.this,"There is no back action",Toast.LENGTH_SHORT).show();
+        return;
+    }
 }

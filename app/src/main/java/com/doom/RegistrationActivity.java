@@ -109,4 +109,9 @@ public class RegistrationActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(RegistrationActivity.this,"There is no back action",Toast.LENGTH_SHORT).show();
+        return;
+    }
 }
