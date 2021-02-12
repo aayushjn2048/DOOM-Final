@@ -1,30 +1,47 @@
 package com.doom;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.doom.Models.Queries;
 import com.doom.databinding.ActivityMoodBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MoodActivity extends AppCompatActivity {
 
     ActivityMoodBinding binding;
     FirebaseAuth auth;
     FirebaseDatabase database;
+    String profileData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +57,29 @@ public class MoodActivity extends AppCompatActivity {
         final Queries query = new Queries();
         final DatabaseReference df = database.getReference().child("Queries");
         final String[] userGender = new String[1];
-        database.getReference().child("Users").child(auth.getUid()).child("gender").addListenerForSingleValueEvent(new ValueEventListener() {
+        database.getReference().child("Users").child(auth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userGender[0] = snapshot.getValue().toString();
+                userGender[0] = snapshot.child("gender").getValue().toString();
+                binding.profileName.setText(snapshot.child("username").getValue().toString());
+                profileData = snapshot.child("profileImage").getValue().toString();
+                try {
+                    final File file = File.createTempFile("image","jpg");
+                    FirebaseStorage.getInstance().getReference().child("images").child(profileData).getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                            binding.profileImage.setImageBitmap(bitmap);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MoodActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -51,6 +87,67 @@ public class MoodActivity extends AppCompatActivity {
 
             }
         });
+
+
+        /*database.getReference().child("Users").child(auth.getUid()).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                try {
+                    final File file = File.createTempFile("image","jpg");
+                    FirebaseStorage.getInstance().getReference().child("images").child(snapshot.child("profileImage").getValue().toString()).getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                            binding.profileImage.setImageBitmap(bitmap);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MoodActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                try {
+                    final File file = File.createTempFile("image","jpg");
+                    FirebaseStorage.getInstance().getReference().child("images").child(snapshot.child("profileImage").getValue().toString()).getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                            binding.profileImage.setImageBitmap(bitmap);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MoodActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });*/
+
         binding.angryMood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -250,7 +347,6 @@ public class MoodActivity extends AppCompatActivity {
             }
         });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -261,9 +357,9 @@ public class MoodActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
-            case R.id.settings:
-                break;
-            case R.id.logout:
+            case R.id.settingsButton:
+                Intent intent = new Intent(MoodActivity.this, Settings.class);
+                startActivity(intent);
                 break;
         }
         return true;

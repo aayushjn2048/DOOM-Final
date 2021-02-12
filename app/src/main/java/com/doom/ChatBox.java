@@ -5,20 +5,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doom.Adapters.ChatAdapter;
 import com.doom.Models.Message;
 import com.doom.databinding.ActivityChatBoxBinding;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -27,6 +35,7 @@ public class ChatBox extends AppCompatActivity {
     ActivityChatBoxBinding binding;
     FirebaseDatabase database;
     FirebaseAuth auth;
+    String profileData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,36 @@ public class ChatBox extends AppCompatActivity {
 
         binding.profileName.setText(username);
         Picasso.get().load(profilePic).placeholder(R.drawable.ic_profile).into(binding.profileImage);*/
+
+        database.getReference().child("Users").child(recieverId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                binding.profileName.setText(snapshot.child("username").getValue().toString());
+                profileData = snapshot.child("profileImage").getValue().toString();
+                try {
+                    final File file = File.createTempFile("image","jpg");
+                    FirebaseStorage.getInstance().getReference().child("images").child(profileData).getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                            binding.profileImage.setImageBitmap(bitmap);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ChatBox.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         final ArrayList<Message> msgList = new ArrayList<>();
 

@@ -36,6 +36,14 @@ public class LoginActivity extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
         database=FirebaseDatabase.getInstance();
 
+        if (auth.getCurrentUser() != null && auth.getCurrentUser().isEmailVerified()) {
+            // User is signed in (getCurrentUser() will be null if not signed in)
+            Intent intent = new Intent(LoginActivity.this, MoodActivity.class);
+            startActivity(intent);
+            finish();
+            // or do some other stuff that you want to do
+        }
+
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setTitle("Signing In");
         progressDialog.setMessage("Signing you in...");

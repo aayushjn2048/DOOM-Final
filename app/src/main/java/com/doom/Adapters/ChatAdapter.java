@@ -16,7 +16,9 @@ import com.doom.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ChatAdapter extends RecyclerView.Adapter{
     ArrayList<Message> msgList;
@@ -96,10 +98,16 @@ public class ChatAdapter extends RecyclerView.Adapter{
         if(holder.getClass() == SenderViewHolder.class)
         {
             ((SenderViewHolder)holder).senderMsg.setText(messageModel.getMessage());
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm a");
+            String dateString = formatter.format(new Date(Long.parseLong(messageModel.getTimestamp().toString())));
+            ((SenderViewHolder)holder).senderTime.setText(dateString);
         }
         else
         {
             ((RecieverViewHolder)holder).recieverMsg.setText(messageModel.getMessage());
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm a");
+            String dateString = formatter.format(new Date(Long.parseLong(messageModel.getTimestamp().toString())));
+            ((RecieverViewHolder)holder).recieverTime.setText(dateString);
         }
     }
 

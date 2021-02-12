@@ -22,6 +22,7 @@
         android:minWidth="64dp"
         android:padding="4dp"
         android:text="Hello World!!!... Forgive me for my karma. I need another line to be added here"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/timeStampReciever"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
