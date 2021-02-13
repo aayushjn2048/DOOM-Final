@@ -56,6 +56,7 @@ public class ChatBox extends AppCompatActivity {
 
         final String senderId = auth.getUid();
         final String recieverId = getIntent().getStringExtra("recieverId");
+
         /*String username = getIntent().getStringExtra("username");
         String profilePic = getIntent().getStringExtra("profilePic");
 

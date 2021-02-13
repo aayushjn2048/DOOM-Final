@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.doom.Models.Message;
 import com.doom.databinding.ActivityWaitingZoneBinding;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Circle;
@@ -30,12 +31,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Date;
+
 public class WaitingZone extends AppCompatActivity {
 
     ActivityWaitingZoneBinding binding;
     FirebaseAuth auth;
     FirebaseDatabase database;
     ConstraintLayout mylayout;
+    Message message = new Message();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +107,7 @@ public class WaitingZone extends AppCompatActivity {
                                 .setContentText("Your conversation has been setted up!!")
                                 .setSmallIcon(R.drawable.ic_chat__1_)
                                 .setChannelId(channelId)
+                                .setAutoCancel(true)
                                 .build();
 
                         Intent ii = new Intent(WaitingZone.this, ChatBox.class);
@@ -113,6 +118,12 @@ public class WaitingZone extends AppCompatActivity {
                         notification.contentIntent = pendingIntent;
 
                         notificationManager.notify(notifyId, notification);
+                        message.setuId(auth.getUid());
+                        message.setMessage("null");
+                        message.setTimestamp(new Date().getTime());
+
+                        database.getReference().child("chats").child(auth.getUid()+recieverId).setValue(message);
+                        database.getReference().child("chats").child(recieverId+auth.getUid()).setValue(message);
 
                         Intent intent = new Intent(WaitingZone.this, ChatBox.class);
                         intent.putExtra("recieverId", recieverId);

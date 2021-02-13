@@ -102,7 +102,7 @@ public class MoodActivity extends AppCompatActivity {
                 query.setMood("Angry");
                 query.setStatus("Available");
                 query.setGender(userGender[0]);
-                myLayout.setBackgroundColor(Color.parseColor("#EB947F"));
+                //myLayout.setBackgroundColor(Color.parseColor("#EB947F"));
                 df.orderByChild("mood").equalTo("Angry").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -1,5 +1,6 @@
 package com.doom;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,8 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.doom.Adapters.AvatarAdapter;
 import com.doom.databinding.ActivitySettingsBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -38,6 +42,7 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
     List<String> images;
     AvatarAdapter adapter;
     Settings settings;
+    FragmentActivity fragmentActivity;
 
     public DialogFragment(Settings settings) {
         this.settings = settings;
@@ -51,6 +56,7 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
 
         storage = FirebaseStorage.getInstance();
         images = new ArrayList<>();
+        fragmentActivity = this.getActivity();
 
         FirebaseStorage.getInstance().getReference().child("images").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
@@ -68,10 +74,10 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
 
         View rootView = inflater.inflate(R.layout.avatar_palette, container);
         avatarList = (RecyclerView) rootView.findViewById(R.id.avatarList);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(fragmentActivity, 2, GridLayoutManager.VERTICAL, false);
         avatarList.setLayoutManager(gridLayoutManager);
 
-        adapter = new AvatarAdapter(images, this.getActivity(), this, settings);
+        adapter = new AvatarAdapter(images, fragmentActivity, this, settings);
         avatarList.setAdapter(adapter);
         return rootView;
     }
