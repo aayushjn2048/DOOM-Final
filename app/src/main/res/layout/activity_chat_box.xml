@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="?attr/colorPrimary"
+        android:background="#3282B8"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme">
 
@@ -24,26 +24,15 @@
 
 
             <ImageView
-                android:id="@+id/backButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Back Button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_left_arrow"
-                app:tint="#FFFFFF" />
-
-            <ImageView
                 android:id="@+id/profile_image"
                 android:layout_width="49dp"
                 android:layout_height="49dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/circle"
+                android:backgroundTint="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/backButton"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -52,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/profile_image"
@@ -63,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="Online"
+                android:textColor="@color/colorPrimary"
                 app:layout_constraintStart_toEndOf="@+id/profile_image"
                 app:layout_constraintTop_toBottomOf="@+id/profile_name" />
 
@@ -70,13 +61,12 @@
                 android:id="@+id/menuButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
                 android:layout_marginEnd="16dp"
-                app:tint="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_menu" />
+                app:srcCompat="@drawable/ic_arrow_to_last_track"
+                app:tint="@color/colorPrimary" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -87,7 +77,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/chatLayout"
-        android:layout_below="@id/toolbar">
+        android:layout_below="@id/toolbar"
+        android:background="#1B262C">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -96,6 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_alignParentBottom="true"
+        android:background="#1B262C"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -105,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_chatbox"
+            android:background="@drawable/round_border"
             android:ems="10"
             android:hint="Enter your Message"
             android:inputType="textPersonName"
@@ -113,6 +105,8 @@
             android:paddingTop="10dp"
             android:paddingRight="20dp"
             android:paddingBottom="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
             android:textSize="18sp" />
 
         <ImageView
@@ -123,7 +117,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="0"
             app:srcCompat="@drawable/ic_send"
-            app:tint="@color/teal_700" />
+            app:tint="@color/colorPrimary" />
     </LinearLayout>
 
 

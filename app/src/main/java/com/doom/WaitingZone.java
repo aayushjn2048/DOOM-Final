@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Date;
 
 public class WaitingZone extends AppCompatActivity {
 
@@ -103,6 +106,7 @@ public class WaitingZone extends AppCompatActivity {
                                 .setContentText("Your conversation has been setted up!!")
                                 .setSmallIcon(R.drawable.ic_chat__1_)
                                 .setChannelId(channelId)
+                                .setAutoCancel(true)
                                 .build();
 
                         Intent ii = new Intent(WaitingZone.this, ChatBox.class);

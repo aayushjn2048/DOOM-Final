@@ -11,15 +11,19 @@
         android:id="@+id/paletteTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#1B262C"
         android:padding="10dp"
         android:text="Choose your avatar"
         android:textAlignment="center"
-        android:textSize="18sp" />
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/avatarList"
         android:layout_width="match_parent"
-        android:layout_height="420dp">
+        android:layout_height="420dp"
+        android:background="#3282B8">
 
     </androidx.recyclerview.widget.RecyclerView>
 
