@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,9 +21,12 @@ import android.widget.Toast;
 
 import com.doom.Models.Users;
 import com.doom.databinding.ActivitySettingsBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,6 +50,8 @@ public class Settings extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     String profileData;
+    ProgressDialog progressDialog;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +62,13 @@ public class Settings extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        user=auth.getCurrentUser();
         final FragmentManager fm = getSupportFragmentManager();
         final DialogFragment fragment = new DialogFragment(this);
+        progressDialog = new ProgressDialog(Settings.this);
+        progressDialog.setTitle("Deleting Account");
+        progressDialog.setMessage("Please wait....");
+
 
         database.getReference().child("Users").child(auth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -127,6 +139,52 @@ public class Settings extends AppCompatActivity {
             }
         });
 
+        binding.deleteaccButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Settings.this);
+                dialog.setTitle("Are you sure?");
+                dialog.setMessage("Deleting the account will result in completely removing your account from the system" +
+                        "and you won't be able to access the app ");
+                
+                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        progressDialog.show();
+                        final String UserId=auth.getUid();
+
+                        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                progressDialog.dismiss();
+                                if(task.isSuccessful())
+                                {
+                                    database.getReference().child("Users").child(UserId).removeValue();
+                                    Toast.makeText(Settings.this,"Account Deleted",Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(Settings.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Toast.makeText(Settings.this,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+                    }
+                });
+                dialog.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+
+                    }
+                });
+                AlertDialog alertDialog=dialog.create();
+                alertDialog.show();
+            }
+        });
+
+
     }
     @Override
     public void onBackPressed() {
@@ -134,5 +192,7 @@ public class Settings extends AppCompatActivity {
         startActivity(intent);
         return;
     }
+
+
 
 }
