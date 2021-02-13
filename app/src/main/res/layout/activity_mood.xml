@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="#1B262C"
     android:orientation="vertical"
     tools:context=".MoodActivity">
 
@@ -12,7 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#8D19BA"
+        android:background="#3282B8"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
@@ -61,7 +62,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="20dp"
-            android:text="Choose your Mood"
+            android:text="Choose Your Mood"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
             android:textAlignment="center"
             android:textSize="36sp" />
 

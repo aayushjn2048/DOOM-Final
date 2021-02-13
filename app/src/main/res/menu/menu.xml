@@ -4,6 +4,7 @@
     <item
         android:title="Setting"
         android:id="@+id/settingsButton"
+        android:iconTint="@color/colorPrimary"
         android:icon="@drawable/ic_baseline_settings_24"
         app:showAsAction="always"
         />
