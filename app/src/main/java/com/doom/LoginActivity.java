@@ -84,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
-
             }
         });
         binding.tvreg.setOnClickListener(new View.OnClickListener() {

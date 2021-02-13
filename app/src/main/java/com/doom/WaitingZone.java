@@ -17,10 +17,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.Toast;
 
-import com.doom.Models.Message;
 import com.doom.databinding.ActivityWaitingZoneBinding;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Circle;
@@ -39,7 +39,6 @@ public class WaitingZone extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     ConstraintLayout mylayout;
-    Message message = new Message();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,12 +117,6 @@ public class WaitingZone extends AppCompatActivity {
                         notification.contentIntent = pendingIntent;
 
                         notificationManager.notify(notifyId, notification);
-                        message.setuId(auth.getUid());
-                        message.setMessage("null");
-                        message.setTimestamp(new Date().getTime());
-
-                        database.getReference().child("chats").child(auth.getUid()+recieverId).setValue(message);
-                        database.getReference().child("chats").child(recieverId+auth.getUid()).setValue(message);
 
                         Intent intent = new Intent(WaitingZone.this, ChatBox.class);
                         intent.putExtra("recieverId", recieverId);

@@ -68,7 +68,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
                 radioGroup = (RadioGroup)findViewById(R.id.gender);
                 if(radioGroup.getCheckedRadioButtonId()==-1) {
-                    binding.btnSignup.setError("Fill all the details");
+                    binding.female.setError("This field cannot remain empty");
                     return;
                 }
                 radioButton = (RadioButton)findViewById(radioGroup.getCheckedRadioButtonId());

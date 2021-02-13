@@ -1,6 +1,7 @@
 package com.doom;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.doom.databinding.ActivityChatBoxBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -109,12 +111,43 @@ public class ChatBox extends AppCompatActivity {
         final String senderRoom = senderId + recieverId;
         final String recieverRoom = recieverId + senderId;
 
+        database.getReference().child("chats").child(senderRoom).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                Toast.makeText(ChatBox.this, "Conversation ended", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ChatBox.this, MoodActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         database.getReference().child("chats").child(senderRoom).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 msgList.clear();
+
                 for (DataSnapshot snapshot1: snapshot.getChildren())
                 {
+
                     Message model = snapshot1.getValue(Message.class);
                     model.setMessageId(snapshot1.getKey());
                     msgList.add(model);
