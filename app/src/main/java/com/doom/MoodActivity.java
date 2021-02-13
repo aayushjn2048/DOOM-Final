@@ -3,10 +3,12 @@ package com.doom;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +44,7 @@ public class MoodActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     String profileData;
+    ConstraintLayout myLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class MoodActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        myLayout = (ConstraintLayout)findViewById(R.id.messageLayout);
 
         final Queries query = new Queries();
         final DatabaseReference df = database.getReference().child("Queries");
@@ -62,24 +66,28 @@ public class MoodActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userGender[0] = snapshot.child("gender").getValue().toString();
                 binding.profileName.setText(snapshot.child("username").getValue().toString());
-                profileData = snapshot.child("profileImage").getValue().toString();
-                try {
-                    final File file = File.createTempFile("image","jpg");
-                    FirebaseStorage.getInstance().getReference().child("images").child(profileData).getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                            binding.profileImage.setImageBitmap(bitmap);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MoodActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(snapshot.hasChild("profileImage")) {
+                    profileData = snapshot.child("profileImage").getValue().toString();
+                    try {
+                        final File file = File.createTempFile("image", "jpg");
+                        FirebaseStorage.getInstance().getReference().child("images").child(profileData).getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                                binding.profileImage.setImageBitmap(bitmap);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(MoodActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+                else
+                    binding.profileImage.setImageResource(R.drawable.ic_profile);
             }
 
             @Override
@@ -94,6 +102,7 @@ public class MoodActivity extends AppCompatActivity {
                 query.setMood("Angry");
                 query.setStatus("Available");
                 query.setGender(userGender[0]);
+                myLayout.setBackgroundColor(Color.parseColor("#EB947F"));
                 df.orderByChild("mood").equalTo("Angry").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
