@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,8 +19,10 @@ import android.widget.Toast;
 import com.doom.Adapters.ChatAdapter;
 import com.doom.Models.Message;
 import com.doom.databinding.ActivityChatBoxBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +45,7 @@ public class ChatBox extends AppCompatActivity {
     FirebaseDatabase database;
     FirebaseAuth auth;
     String profileData;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,10 @@ public class ChatBox extends AppCompatActivity {
 
         final String senderId = auth.getUid();
         final String recieverId = getIntent().getStringExtra("recieverId");
+
+        progressDialog = new ProgressDialog(ChatBox.this);
+        progressDialog.setTitle("Deleting Account");
+        progressDialog.setMessage("Please wait....");
 
         /*String username = getIntent().getStringExtra("username");
         String profilePic = getIntent().getStringExtra("profilePic");
@@ -190,13 +200,31 @@ public class ChatBox extends AppCompatActivity {
             }
         });
 
-        binding.backButton.setOnClickListener(new View.OnClickListener() {
+        binding.menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                database.getReference().child("chats").child(senderRoom).removeValue();
-                database.getReference().child("chats").child(recieverRoom).removeValue();
-                Intent intent = new Intent(ChatBox.this, MoodActivity.class);
-                startActivity(intent);
+                final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(ChatBox.this,R.style.DialogTheme);
+                dialog.setTitle("End Conversation");
+                dialog.setMessage("Are you sure you want to end the conversation?");
+
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        database.getReference().child("chats").child(senderRoom).removeValue();
+                        database.getReference().child("chats").child(recieverRoom).removeValue();
+                        Toast.makeText(ChatBox.this, "Conversation ended successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ChatBox.this, MoodActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                AlertDialog alertDialog=dialog.create();
+                alertDialog.show();
             }
         });
     }
