@@ -142,7 +142,7 @@ public class Settings extends AppCompatActivity {
         binding.deleteaccButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Settings.this);
+                final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Settings.this,R.style.DialogTheme);
                 dialog.setTitle("Are you sure?");
                 dialog.setMessage("Deleting the account will result in completely removing your account from the system" +
                         "and you won't be able to access the app ");
