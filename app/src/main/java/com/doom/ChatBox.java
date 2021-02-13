@@ -3,6 +3,7 @@ package com.doom;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,6 +29,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class ChatBox extends AppCompatActivity {
@@ -95,7 +97,8 @@ public class ChatBox extends AppCompatActivity {
         final ChatAdapter chatAdapter = new ChatAdapter(msgList, this, recieverId);
         binding.chatRecyclerView.setAdapter(chatAdapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
         binding.chatRecyclerView.setLayoutManager(layoutManager);
 
         final String senderRoom = senderId + recieverId;
@@ -111,6 +114,9 @@ public class ChatBox extends AppCompatActivity {
                     model.setMessageId(snapshot1.getKey());
                     msgList.add(model);
                 }
+                if(msgList.size()>0)
+                    binding.chatRecyclerView.smoothScrollToPosition(msgList.size()-1);
+                //layoutManager.smoothScrollToPosition(binding.chatRecyclerView,);
                 chatAdapter.notifyDataSetChanged();
             }
 
@@ -124,6 +130,8 @@ public class ChatBox extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String msg = binding.editMessage.getText().toString();
+                if(msg.length()==0)
+                    return;
                 final Message model = new Message(senderId, msg);
 
 

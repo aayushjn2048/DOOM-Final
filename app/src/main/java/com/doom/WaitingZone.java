@@ -2,9 +2,20 @@ package com.doom;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -12,13 +23,10 @@ import android.widget.Toast;
 import com.doom.databinding.ActivityWaitingZoneBinding;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Circle;
-import com.github.ybq.android.spinkit.style.DoubleBounce;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -27,6 +35,7 @@ public class WaitingZone extends AppCompatActivity {
     ActivityWaitingZoneBinding binding;
     FirebaseAuth auth;
     FirebaseDatabase database;
+    ConstraintLayout mylayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,7 @@ public class WaitingZone extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        mylayout = (ConstraintLayout) findViewById(R.id.messageLayout);
 
         Sprite circle = new Circle();
         binding.spinKit.setIndeterminateDrawable(circle);
@@ -58,11 +68,52 @@ public class WaitingZone extends AppCompatActivity {
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 database.getReference().child("Queries").child(auth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String recieverId = snapshot.child("chatterId").getValue().toString();
+                        //String myMood = snapshot.child("mood").getValue().toString();
                         database.getReference().child("Queries").child(auth.getUid()).removeValue();
                         database.getReference().child("Queries").child(recieverId).removeValue();
+                        /*if(myMood.equals("Angry"))
+                            mylayout.setBackgroundColor(Color.parseColor("#EB947F"));
+                        else if(myMood.equals("Sad"))
+                            mylayout.setBackgroundColor(Color.parseColor("#DEDEDE"));
+                        else if(myMood.equals("TimePass"))
+                            mylayout.setBackgroundColor(Color.parseColor("#6C9FE0"));
+                        else if(myMood.equals("Passionate"))
+                            mylayout.setBackgroundColor(Color.parseColor("#E3F35D"));*/
+
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                        String channelId = "my_channel_id";
+                        CharSequence channelName = "My Channel";
+                        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+                        NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
+                        notificationChannel.enableLights(true);
+                        notificationChannel.setLightColor(Color.RED);
+                        notificationChannel.enableVibration(false);
+                        notificationChannel.setVibrationPattern(new long[]{0L});
+                        notificationManager.createNotificationChannel(notificationChannel);
+
+                        int notifyId = 1;
+
+                        Notification notification = new Notification.Builder(WaitingZone.this)
+                                .setContentTitle("Pair Found")
+                                .setContentText("Your conversation has been setted up!!")
+                                .setSmallIcon(R.drawable.ic_chat__1_)
+                                .setChannelId(channelId)
+                                .build();
+
+                        Intent ii = new Intent(WaitingZone.this, ChatBox.class);
+                        ii.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        ii.putExtra("recieverId", recieverId);
+
+                        PendingIntent pendingIntent = PendingIntent.getActivity(WaitingZone.this, 0, ii, PendingIntent.FLAG_UPDATE_CURRENT);
+                        notification.contentIntent = pendingIntent;
+
+                        notificationManager.notify(notifyId, notification);
+
                         Intent intent = new Intent(WaitingZone.this, ChatBox.class);
                         intent.putExtra("recieverId", recieverId);
                         startActivity(intent);
