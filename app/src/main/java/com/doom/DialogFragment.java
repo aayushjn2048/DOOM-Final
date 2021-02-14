@@ -58,6 +58,34 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
         images = new ArrayList<>();
         fragmentActivity = this.getActivity();
 
+        images.add("cs10000898984263089511.png");
+        images.add("cs10000849938093558363.png");
+        images.add("cs10000811708184140319.png");
+        images.add("cs10000592242416795426.png");
+        images.add("cs10000524080030775394.png");
+        images.add("cs10000417372154603123.png");
+        images.add("cs10000354665834323549.png");
+        images.add("cs10000053986926948907.png");
+        images.add("cs115015743350173470.png");
+        images.add("cs114670826804284719.png");
+        images.add("cs114653745181833031.png");
+        images.add("cs114572491926134293.png");
+        images.add("cs114442194319972023.png");
+        images.add("cs114083562476861379.png");
+        images.add("cs113835201862675849.png");
+        images.add("cs113270871606642660.png");
+        images.add("cs113239488699437069.png");
+        images.add("cs112858343352712292.png");
+        images.add("cs112792777109162058.png");
+        images.add("cs112649497221166171.png");
+        images.add("cs112531926704693505.png");
+        images.add("cs112145447474950623.png");
+        images.add("cs111730397949486489.png");
+        images.add("cs111464773118169668.png");
+        images.add("cs110895378980355805.png");
+        images.add("cs110848211297309264.png");
+        images.add("cs110790626714649728.png");
+
         FirebaseStorage.getInstance().getReference().child("images").listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
             public void onSuccess(ListResult listResult) {

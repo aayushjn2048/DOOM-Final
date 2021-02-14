@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class WaitingZone extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     ConstraintLayout mylayout;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +152,23 @@ public class WaitingZone extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        Toast.makeText(WaitingZone.this,"There is no back action",Toast.LENGTH_SHORT).show();
+        if (doubleBackToExitPressedOnce) {
+            Intent startMain = new Intent(Intent.ACTION_MAIN);
+            startMain.addCategory(Intent.CATEGORY_HOME);
+            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(startMain);
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(WaitingZone.this,"There is no back action, Click again to exit",Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
         return;
     }
 }
