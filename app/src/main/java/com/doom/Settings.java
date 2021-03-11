@@ -118,9 +118,12 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String username = binding.editTextUsername.getText().toString();
-
-                database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid()).child("username").setValue(username);
-                Toast.makeText(Settings.this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
+                if(username.length()==0)
+                    Toast.makeText(Settings.this, "Username cannot be empty", Toast.LENGTH_SHORT).show();
+                else {
+                    database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid()).child("username").setValue(username);
+                    Toast.makeText(Settings.this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

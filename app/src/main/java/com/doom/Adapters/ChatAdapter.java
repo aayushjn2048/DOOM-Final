@@ -68,7 +68,7 @@ public class ChatAdapter extends RecyclerView.Adapter{
 
         final Message messageModel = msgList.get(position);
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        /*holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
 
@@ -93,7 +93,7 @@ public class ChatAdapter extends RecyclerView.Adapter{
 
                 return false;
             }
-        });
+        });*/
 
         if(holder.getClass() == SenderViewHolder.class)
         {

@@ -2,9 +2,18 @@ package com.doom.Models;
 
 public class Queries {
     String mood, status, chatterId, gender;
+    long timeStamp;
 
     public String getGender() {
         return gender;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public void setGender(String gender) {

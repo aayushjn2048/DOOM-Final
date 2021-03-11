@@ -33,4 +33,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="Cancel" />
+
+    <TextView
+        android:id="@+id/warningNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="If not connected within 10 minutes, try again...."
+        android:textColor="#FFFFFF" />
 </LinearLayout>

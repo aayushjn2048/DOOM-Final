@@ -76,6 +76,7 @@ public class WaitingZone extends AppCompatActivity {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                         String recieverId = snapshot.child("chatterId").getValue().toString();
                         //String myMood = snapshot.child("mood").getValue().toString();
                         database.getReference().child("Queries").child(auth.getUid()).removeValue();

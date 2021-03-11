@@ -38,6 +38,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class MoodActivity extends AppCompatActivity {
 
@@ -104,24 +106,41 @@ public class MoodActivity extends AppCompatActivity {
                 query.setMood("Angry");
                 query.setStatus("Available");
                 query.setGender(userGender[0]);
+                query.setTimeStamp(new Date().getTime());
                 //myLayout.setBackgroundColor(Color.parseColor("#EB947F"));
                 df.orderByChild("mood").equalTo("Angry").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.hasChildren())
                         {
+                            boolean flag = true;
                             for(DataSnapshot ss: snapshot.getChildren())
                             {
-                                if(ss.getKey() == auth.getUid())
+                                Timestamp t1 = new Timestamp(Long.parseLong(ss.child("timeStamp").getValue().toString()));
+                                Timestamp t2 = new Timestamp(new Date().getTime());
+                                if(((t2.getTime()-t1.getTime())/1000)>=1000) {
+                                    FirebaseDatabase.getInstance().getReference().child("Queries").child(ss.getKey()).removeValue();
                                     continue;
+                                }
                                 String recieverId = ss.getKey();
+                                //Toast.makeText(MoodActivity.this, recieverId + " and " + auth.getUid(), Toast.LENGTH_SHORT).show();
+                                if(recieverId.equals(auth.getUid())){
+                                    Toast.makeText(MoodActivity.this, "Your request has already been registered from another device", Toast.LENGTH_SHORT).show();
+                                    continue;
+                                }
                                 //Toast.makeText(MoodActivity.this, recieverId+"-Akola", Toast.LENGTH_SHORT).show();
                                 df.child(recieverId).child("status").setValue("Busy");
                                 df.child(recieverId).child("chatterId").setValue(auth.getUid());
+                                flag = false;
                                 Intent intent = new Intent(MoodActivity.this, ChatBox.class);
                                 intent.putExtra("recieverId", recieverId);
                                 startActivity(intent);
                                 break;
+                            }
+                            if(flag) {
+                                df.child(auth.getUid()).setValue(query);
+                                Intent intent = new Intent(MoodActivity.this, WaitingZone.class);
+                                startActivity(intent);
                             }
                         }
                         else
@@ -146,23 +165,39 @@ public class MoodActivity extends AppCompatActivity {
                 query.setMood("Sad");
                 query.setStatus("Available");
                 query.setGender(userGender[0]);
+                query.setTimeStamp(new Date().getTime());
                 df.orderByChild("mood").equalTo("TimePass").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.hasChildren())
                         {
+                            boolean flag = true;
                             for(DataSnapshot ss: snapshot.getChildren())
                             {
-                                if(ss.getKey() == auth.getUid())
+                                Timestamp t1 = new Timestamp(Long.parseLong(ss.child("timeStamp").getValue().toString()));
+                                Timestamp t2 = new Timestamp(new Date().getTime());
+                                if(((t2.getTime()-t1.getTime())/1000)>=1000) {
+                                    FirebaseDatabase.getInstance().getReference().child("Queries").child(ss.getKey()).removeValue();
                                     continue;
+                                }
                                 String recieverId = ss.getKey();
+                                if(recieverId.equals(auth.getUid())){
+                                    Toast.makeText(MoodActivity.this, "Your request has already been registered from another device", Toast.LENGTH_SHORT).show();
+                                    continue;
+                                }
                                 //Toast.makeText(MoodActivity.this, recieverId+"-Akola", Toast.LENGTH_SHORT).show();
+                                flag = false;
                                 df.child(recieverId).child("status").setValue("Busy");
                                 df.child(recieverId).child("chatterId").setValue(auth.getUid());
                                 Intent intent = new Intent(MoodActivity.this, ChatBox.class);
                                 intent.putExtra("recieverId", recieverId);
                                 startActivity(intent);
                                 break;
+                            }
+                            if(flag) {
+                                df.child(auth.getUid()).setValue(query);
+                                Intent intent = new Intent(MoodActivity.this, WaitingZone.class);
+                                startActivity(intent);
                             }
                         }
                         else
@@ -187,23 +222,83 @@ public class MoodActivity extends AppCompatActivity {
                 query.setMood("TimePass");
                 query.setStatus("Available");
                 query.setGender(userGender[0]);
+                query.setTimeStamp(new Date().getTime());
                 df.orderByChild("mood").equalTo("Sad").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.hasChildren())
                         {
+                            boolean flag = true;
                             for(DataSnapshot ss: snapshot.getChildren())
                             {
-                                if(ss.getKey() == auth.getUid())
+                                Timestamp t1 = new Timestamp(Long.parseLong(ss.child("timeStamp").getValue().toString()));
+                                Timestamp t2 = new Timestamp(new Date().getTime());
+                                if(((t2.getTime()-t1.getTime())/1000)>=1000) {
+                                    FirebaseDatabase.getInstance().getReference().child("Queries").child(ss.getKey()).removeValue();
                                     continue;
+                                }
                                 String recieverId = ss.getKey();
+                                if(recieverId.equals(auth.getUid())){
+                                    Toast.makeText(MoodActivity.this, "Your request has already been registered from another device", Toast.LENGTH_SHORT).show();
+                                    continue;
+                                }
                                 //Toast.makeText(MoodActivity.this, recieverId+"-Akola", Toast.LENGTH_SHORT).show();
+                                flag = false;
                                 df.child(recieverId).child("status").setValue("Busy");
                                 df.child(recieverId).child("chatterId").setValue(auth.getUid());
                                 Intent intent = new Intent(MoodActivity.this, ChatBox.class);
                                 intent.putExtra("recieverId", recieverId);
                                 startActivity(intent);
                                 break;
+                            }
+                            if(flag) {
+                                df.orderByChild("mood").equalTo("TimePass").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if(snapshot.hasChildren())
+                                        {
+                                            boolean flag2 = true;
+                                            for(DataSnapshot ss: snapshot.getChildren())
+                                            {
+                                                Timestamp t1 = new Timestamp(Long.parseLong(ss.child("timeStamp").getValue().toString()));
+                                                Timestamp t2 = new Timestamp(new Date().getTime());
+                                                if(((t2.getTime()-t1.getTime())/1000)>=1000) {
+                                                    FirebaseDatabase.getInstance().getReference().child("Queries").child(ss.getKey()).removeValue();
+                                                    continue;
+                                                }
+                                                String recieverId = ss.getKey();
+                                                if(recieverId.equals(auth.getUid())){
+                                                    Toast.makeText(MoodActivity.this, "Your request has already been registered from another device", Toast.LENGTH_SHORT).show();
+                                                    continue;
+                                                }
+                                                //Toast.makeText(MoodActivity.this, recieverId+"-Akola", Toast.LENGTH_SHORT).show();
+                                                flag2 = false;
+                                                df.child(recieverId).child("status").setValue("Busy");
+                                                df.child(recieverId).child("chatterId").setValue(auth.getUid());
+                                                Intent intent = new Intent(MoodActivity.this, ChatBox.class);
+                                                intent.putExtra("recieverId", recieverId);
+                                                startActivity(intent);
+                                                break;
+                                            }
+                                            if(flag2){
+                                                df.child(auth.getUid()).setValue(query);
+                                                Intent intent = new Intent(MoodActivity.this, WaitingZone.class);
+                                                startActivity(intent);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            df.child(auth.getUid()).setValue(query);
+                                            Intent intent = new Intent(MoodActivity.this, WaitingZone.class);
+                                            startActivity(intent);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                             }
                         }
                         else
@@ -213,18 +308,34 @@ public class MoodActivity extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if(snapshot.hasChildren())
                                     {
+                                        boolean flag2 = true;
                                         for(DataSnapshot ss: snapshot.getChildren())
                                         {
-                                            if(ss.getKey() == auth.getUid())
+                                            Timestamp t1 = new Timestamp(Long.parseLong(ss.child("timeStamp").getValue().toString()));
+                                            Timestamp t2 = new Timestamp(new Date().getTime());
+                                            if(((t2.getTime()-t1.getTime())/1000)>=1000) {
+                                                FirebaseDatabase.getInstance().getReference().child("Queries").child(ss.getKey()).removeValue();
                                                 continue;
+                                            }
                                             String recieverId = ss.getKey();
+                                            if(recieverId.equals(auth.getUid())){
+                                                Toast.makeText(MoodActivity.this, "Your request has already been registered from another device", Toast.LENGTH_SHORT).show();
+                                                continue;
+                                            }
                                             //Toast.makeText(MoodActivity.this, recieverId+"-Akola", Toast.LENGTH_SHORT).show();
+                                            flag2 = false;
                                             df.child(recieverId).child("status").setValue("Busy");
                                             df.child(recieverId).child("chatterId").setValue(auth.getUid());
                                             Intent intent = new Intent(MoodActivity.this, ChatBox.class);
                                             intent.putExtra("recieverId", recieverId);
                                             startActivity(intent);
                                             break;
+                                        }
+                                        if(flag2)
+                                        {
+                                            df.child(auth.getUid()).setValue(query);
+                                            Intent intent = new Intent(MoodActivity.this, WaitingZone.class);
+                                            startActivity(intent);
                                         }
                                     }
                                     else
@@ -257,29 +368,45 @@ public class MoodActivity extends AppCompatActivity {
                 query.setMood("Passionate");
                 query.setStatus("Available");
                 query.setGender(userGender[0]);
+                query.setTimeStamp(new Date().getTime());
                 df.orderByChild("mood").equalTo("Passionate").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.hasChildren())
                         {
+                            boolean flag = true;
                             for(DataSnapshot ss: snapshot.getChildren())
                             {
-                                if(ss.getKey() == auth.getUid())
+                                Timestamp t1 = new Timestamp(Long.parseLong(ss.child("timeStamp").getValue().toString()));
+                                Timestamp t2 = new Timestamp(new Date().getTime());
+                                if(((t2.getTime()-t1.getTime())/1000)>=1000) {
+                                    FirebaseDatabase.getInstance().getReference().child("Queries").child(ss.getKey()).removeValue();
                                     continue;
+                                }
                                 //Toast.makeText(MoodActivity.this, userGender[0] + " and " + ss.child("gender").getValue() + " " + ss.getKey(), Toast.LENGTH_SHORT).show();
+                                String recieverId = ss.getKey();
+                                if(recieverId.equals(auth.getUid())){
+                                    Toast.makeText(MoodActivity.this, "Your request has already been registered from another device", Toast.LENGTH_SHORT).show();
+                                    continue;
+                                }
                                 if(userGender[0].equals(ss.child("gender").getValue().toString()))
                                 {
                                     //Toast.makeText(MoodActivity.this, "This is working", Toast.LENGTH_SHORT).show();
                                     continue;
                                 }
-                                String recieverId = ss.getKey();
                                 //Toast.makeText(MoodActivity.this, recieverId+"-Akola", Toast.LENGTH_SHORT).show();
+                                flag = false;
                                 df.child(recieverId).child("status").setValue("Busy");
                                 df.child(recieverId).child("chatterId").setValue(auth.getUid());
                                 Intent intent = new Intent(MoodActivity.this, ChatBox.class);
                                 intent.putExtra("recieverId", recieverId);
                                 startActivity(intent);
                                 break;
+                            }
+                            if(flag) {
+                                df.child(auth.getUid()).setValue(query);
+                                Intent intent = new Intent(MoodActivity.this, WaitingZone.class);
+                                startActivity(intent);
                             }
                         }
                         else
