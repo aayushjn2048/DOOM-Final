@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
                 android:padding="8dp"
-                android:text="Username: "
+                android:text="Avatar Name"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold" />

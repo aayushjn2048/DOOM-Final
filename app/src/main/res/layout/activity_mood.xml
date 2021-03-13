@@ -229,7 +229,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginRight="20dp"
-                    app:cardBackgroundColor="#C9D530"
+                    app:cardBackgroundColor="#A6D141"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="4dp"
                     app:cardMaxElevation="4dp">
@@ -252,14 +252,14 @@
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
                                 android:layout_gravity="center_horizontal"
-                                app:srcCompat="@drawable/ic_enthusiast" />
+                                app:srcCompat="@drawable/ic_affection" />
 
                             <TextView
                                 android:id="@+id/passionateMoodValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
-                                android:text="Passionate"
+                                android:text="Romantic"
                                 android:textSize="18sp" />
                         </LinearLayout>
 
